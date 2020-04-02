@@ -1,26 +1,71 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import marked from 'marked';
 
-function App() {
+import { sampleText } from './sampleText';
+
+
+class App extends Component {
+  state = {
+    text: sampleText
+  }
+
+  handleChange = event => {
+    const text = event.target.value;
+    this.setState({ text })
+  }
+
+  renderText = text => {
+    const __html = marked(text, { sanitize: true })
+    return { __html }
+  }
+
+  render() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className='container'>
+      <h1
+        style={{
+          textAlign: 'center',
+          marginTop: '50px',
+          marginBottom: '50px'
+        }}
+      >Xiaomei Personnal Text Editor</h1>
+      <div className='row'>
+        <div className='col-sm-6'>
+          <textarea 
+            onChange={this.handleChange}
+            className='form-control' 
+            rows='35'
+            value={ this.state.text }
+            style={{
+              borderRadius: '15px'
+            }}
+            >
+          </textarea>
+        </div>
+        <div className='col-sm-6'
+          style={{ 
+            backgroundColor: 'purple',
+            color: 'white',
+            borderRadius: '15px',
+            boxShadow: '10px 5px 5px black;'
+           }}
         >
-          Learn React
-        </a>
-      </header>
+          <h1
+            style={{
+              textAlign: 'center',
+              color: 'grey'
+            }}
+          >Resutat</h1>
+          <div>
+            <div 
+              dangerouslySetInnerHTML= { this.renderText(this.state.text) } />
+          </div>
+        </div>  
+      </div>    
     </div>
   );
+  }
 }
 
 export default App;
