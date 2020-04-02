@@ -10,6 +10,20 @@ class App extends Component {
     text: sampleText
   }
 
+  componentDidMount () {
+    const text = localStorage.getItem('text')
+    if (text) {
+      this.setState({text})
+    } else {
+      this.setState({sampleText})
+    }
+  }
+
+  componentDidUpdate () {
+    const {text} = this.state
+    localStorage.setItem('text', text)
+  }
+
   handleChange = event => {
     const text = event.target.value;
     this.setState({ text })
@@ -48,7 +62,7 @@ class App extends Component {
             backgroundColor: 'purple',
             color: 'white',
             borderRadius: '15px',
-            boxShadow: '10px 5px 5px black;'
+            boxShadow: '10px 5px 5px grey'
            }}
         >
           <h1
